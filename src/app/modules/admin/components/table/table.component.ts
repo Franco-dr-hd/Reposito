@@ -16,7 +16,7 @@ export class TableComponent {
   modalVisibleProducto: boolean = false;
 
   // Variable va a tomar el producto que nosotros elejimos 
-  productoSeleccionado! : Producto; // <- Recibe valores vacíos 
+  productoSeleccionado!: Producto; // <- Recibe valores vacíos 
 
   // Definimos formulario para los productos
   /**
@@ -32,9 +32,9 @@ export class TableComponent {
     alt: new FormControl('', Validators.required)
   })
 
-  constructor(public servicioCrud: CrudService){}
+  constructor(public servicioCrud: CrudService) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     // subscribe -> notifica constantemente los cambios actuales del sistema
     this.servicioCrud.obtenerProducto().subscribe(producto => {
       // guarda la información recibida como un nuevo "producto" a la colección
@@ -42,9 +42,9 @@ export class TableComponent {
     })
   }
 
-  async agregarProducto(){
+  async agregarProducto() {
     // validamos los valores del producto agregado
-    if(this.producto.valid){
+    if (this.producto.valid) {
       let nuevoProducto: Producto = {
         // idProducto no se toma porque es generado por la BD y no por el usuario
         idProducto: '',
@@ -57,32 +57,74 @@ export class TableComponent {
         alt: this.producto.value.alt!
       }
 
-      
+
 
       await this.servicioCrud.crearProducto(nuevoProducto)
-      .then(producto => {
-        alert("Ha agregado un nuevo producto con éxito :)");
-      })
-      .catch(error => {
-        alert("Hubo un problema al agregar un nuevo producto :(");
-      })
+        .then(producto => {
+          alert("Ha agregado un nuevo producto con éxito :)");
+        })
+        .catch(error => {
+          alert("Hubo un problema al agregar un nuevo producto :(");
+        })
     }
 
 
   }
-  mostrarBorrar(productoSeleccionado: Producto){
+  // Función para alertar al usuaurio del producto que desea eliminar
+  mostrarBorrar(productoSeleccionado: Producto) {
+    // abre el modal
+    this.modalVisibleProducto = true;
+
+    // toma los valores seleccionados 
     this.productoSeleccionado = productoSeleccionado;
+
   }
 
-  borrarProducto(){
+
+
+  borrarProducto() {
     this.servicioCrud.eliminarProducto(this.productoSeleccionado.idProducto)
 
-    .then(respuesta => {
-      alert("El producto se ha eliminado correctamente.")
-    })
+      .then(respuesta => {
+        alert("El producto se ha eliminado correctamente.")
+      })
 
-    .catch(error =>{
-      alert("No se ha podido eliminar el producto \n"+error);
+      .catch(error => {
+        alert("No se ha podido eliminar el producto \n" + error);
+      })
+  }
+  mostrarEditar(productoSeleccionado: Producto) {
+    this.productoSeleccionado = productoSeleccionado;
+
+    // Enviar o "setear" los nuevos valores y resignarlos a las variables
+    // El ID no se vuelve a enviar ni se modifica, por ende no lo llamamos
+    this.producto.setValue({
+      nombre: productoSeleccionado.nombre,
+      precio: productoSeleccionado.precio,
+      descripcion: productoSeleccionado.descripcion,
+      categoria: productoSeleccionado.categoria,
+      imagen: productoSeleccionado.imagen,
+      alt: productoSeleccionado.alt,
     })
+  }
+  editarProducto() {
+    let datos: Producto = {
+      // Solo el ID toma y deja igual su valor
+      idProducto: this.productoSeleccionado.idProducto,
+      nombre: this.producto.value.nombre!,
+      precio: this.producto.value.precio!,
+      descripcion: this.producto.value.descripcion!,
+      categoria: this.producto.value.categoria!,
+      imagen: this.producto.value.imagen!,
+      alt: this.producto.value.alt!
+    }
+
+    this.servicioCrud.modificarProducto(this.productoSeleccionado.idProducto, datos)
+    .then(producto => {
+      alert("El producto fue editado con éxito.")
+    })
+    .catch(error =>{
+      alert("Hubo un problema al modificar el producto.")
+    });
   }
 }
