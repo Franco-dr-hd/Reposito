@@ -9,23 +9,35 @@ import { ProductoComponent } from './pages/producto/producto.component';
 import { IndumentariaComponent } from './pages/indumentaria/indumentaria.component';
 import { AlimentacionComponent } from './pages/alimentacion/alimentacion.component';
 import { JuguetesComponent } from './pages/juguetes/juguetes.component';
+import { CardComponent } from './components/card/card.component';
+import { CardJuguetesComponent } from './components/card-juguetes/card-juguetes.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     ProductoComponent,
     IndumentariaComponent,
     AlimentacionComponent,
-    JuguetesComponent
+    JuguetesComponent,
+    CardComponent,
+    CardJuguetesComponent
   ],
   imports: [
     CommonModule,
-    ProductoRoutingModule
+    ProductoRoutingModule,
+    MatButtonModule,
+    MatCardModule
   ],
   exports: [
     ProductoComponent,
     IndumentariaComponent,
     AlimentacionComponent,
-    JuguetesComponent
+    JuguetesComponent,
+    MatButtonModule,
+    MatCardModule,
+    CardComponent,
+    CardJuguetesComponent
   ]
 })
 export class ProductoModule { }
