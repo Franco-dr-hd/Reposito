@@ -9,7 +9,7 @@ import { IndumentariaComponent } from './pages/indumentaria/indumentaria.compone
 
 const routes: Routes = [
   {
-    path:"producto",component:ProductoComponent
+    path:"general",component:ProductoComponent
   },
   {
     path:"alimentacion",component:AlimentacionComponent

@@ -20,7 +20,8 @@ export class CardJuguetesComponent {
 
   ngOnInit(): void{
     this.servicioCrud.obtenerProducto().subscribe(producto => {
-      this.coleccionProductos = producto
+      this.coleccionProductos = producto;
+      this.mostrarProductoJuguetes()
     })
     // mostrar la colección actual de juguetes
   }
