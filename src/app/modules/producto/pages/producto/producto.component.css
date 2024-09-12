@@ -1,0 +1,15 @@
+.container{
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+h1{
+    padding: 1rem;
+}
+.imagen-carrusel{
+    width: 350px;
+}
+.carrusel-next{
+    width: 350px;
+}
